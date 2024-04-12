@@ -1,0 +1,4 @@
+hello everybody 
+my name is nikhil
+im working on conflicts
+this is scm file
