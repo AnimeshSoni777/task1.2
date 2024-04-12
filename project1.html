@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quiz</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js" ></script>
+    
+    <style>
+        body{
+            background-image: url('35986600.jpg');
+            background-repeat: no-repeat;
+            background-size:cover;
+            background-attachment: fixed;
+        }
+        .sub{
+            background-color: rgba(0, 0, 0, 0.555);
+            border-radius: 5px;
+            margin: auto;
+            width: 1000px;
+            padding: 5px;
+            text-align: justify;
+            border:2px rgb(0, 0, 0) solid;
+            
+            
+        }
+
+        .information{
+            color: rgb(0, 0, 0);
+            transform: translateX(2000px);
+            background-color:rgb(63, 165, 255);
+            border-radius: 5px;
+            padding: 5px;
+            
+        }
+        .head{
+            margin-left: auto;
+            margin-right: auto;
+        }
+        ol{
+            display: flex;
+            flex-direction: column;
+            
+            margin-right: auto;
+
+        }
+        h3,p,h2{
+            background-color: rgb(63, 165, 255);
+            width: fit-content;
+            border-radius: 5px;
+            padding: 5px;
+
+        }
+        li{
+            background-color: rgb(63, 165, 255);
+            margin: 5px;
+            width: 200px;
+            padding: 5px;
+            border-radius: 5px;
+            transition-duration: 0.2s;
+            color:rgb(255, 255, 255);
+        }
+        li:hover{
+            transform: scale3d(1.05,1.05,1.05);
+            transition-duration: 0.2s;
+        }
+        a{
+            color: black;
+            text-decoration: none;
+        }
+        button{
+            background-color: rgba(255, 183, 0, 0);
+            border: none;
+            width: 100%;
+        }
+        
+        .score1{
+            background-color: rgb(63, 165, 255);
+            border: solid;
+            border-width: 3px;
+            border-radius: 5px;
+            font-size: medium;
+            padding: 10px;
+            width: fit-content;
+            margin-left: 600px;
+            transform: translateX(1980px);
+            color: rgb(0, 0, 0);
+            font: 300;
+        }
+        #view{
+            background-color: rgb(63, 165, 255);
+            border-radius: 5px;
+            padding:5px;
+            margin-left: 45%;
+        }
+
+        @keyframes anim1{
+            0%{
+                transform: translateX(2000px);
+            }
+            100%{
+                transform: translateX(-30px);
+            }
+        }
+        @keyframes anim2{
+            0%{
+                transform: translateX(2000px);
+            }
+            100%{
+                transform: translateX(0px);
+            }
+        }
+        hr{
+            width: 1000px;
+        }
+        #view{
+            width: fit-content;
+            margin-bottom: 30px;
+            margin-right: auto;
+            font-size: medium;
+            border: solid;
+            border-width: 3px;
+            margin-top: 10px;
+        }
+        .information{
+            display: none;
+        }
+        #view2{
+            display: none;
+            width: fit-content;
+            margin-bottom: 30px;
+            margin-left: 40%;
+            background-color: rgb(63, 165, 255);
+            padding: 3px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: solid;
+            border-width: 3px;
+            margin-left: 650px;
+        }
+        .base-timer {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            margin-left: 50px;
+            
+        }
+        
+        .base-timer__svg {
+            transform: scaleX(-1);
+        }
+        
+        .base-timer__circle {
+            fill: none;
+            stroke: none;
+        }
+        
+        .base-timer__path-elapsed {
+            stroke-width: 7px;
+            stroke: grey;
+        }
+        
+        .base-timer__path-remaining {
+            stroke-width: 7px;
+            stroke-linecap: round;
+            transform: rotate(90deg);
+            transform-origin: center;
+            transition: 1s linear all;
+            fill-rule: nonzero;
+            stroke: currentColor;
+        }
+        
+        .base-timer__path-remaining.green {
+            color: rgb(65, 184, 131);
+        }
+        
+        .base-timer__path-remaining.orange {
+            color: orange;
+        }
+        
+        .base-timer__path-remaining.red {
+            color: red;
+        }
+        
+        .base-timer__label {
+            position: fixed;
+            color: white;
+            width: 100px;
+            height: 100px;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-top: 20px;
+        }
+
+        
+
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    <div id="main">
+        <h2 class="head">General Knowledge Quiz</h2>
+        <div id="sub1" class="sub">
+            <div id="section1">
+                <h3 id="question1">Q-1 Which of the three banks will be merged with the other two to create Indias third-largest bank?</h3>
+                <div class="content" id="content1">
+                    <ol type="A">
+                        <li id="option1a"><button onclick="correct1()" >Punjab National Bank</button></li>
+                        <li id="option1b"><button onclick="incorrect1()" >Indian Bank</button></li>
+                        <li id="option1c"><button onclick="incorrect1()" >Bank of Baroda </button></li>
+                        <li id="option1d"><button onclick="incorrect1()" >Dena Bank</button></li>
+                    </ol>
+                    <div class="information" id="info1">Punjab National Bank (abbreviated as PNB) is an Indian public sector bank based in New Delhi. The bank was founded in May 1894 and is the second largest public sector bank in India in terms of its business volumes and second largest in terms of its network. The bank has over 180 million customers, 12,248 branches, and 13,000+ ATMs.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr >
+        <div id="sub2" class="sub">
+            <div id="section2">
+                <h3 id="question2">Q-2 What is the name of the weak zone of the earths crust?</h3>
+                <div class="content" id="content2">
+                    <ol type="A">
+                        <li id="option2a"><button onclick="incorrect2()">Cosmic</button></li>
+                        <li id="option2b"><button onclick="correct2()">Seismic</button></li>
+                        <li id="option2c"><button onclick="incorrect2()">Formic</button></li>
+                        <li id="option2d"><button onclick="incorrect2()">Anaemic</button></li>
+                    </ol>
+                    
+                    <div class="information" id="info2">Although you may hear the terms “seismic zone” and “seismic hazard zone” used interchangeably, they really describe two slightly different things. A seismic zone is used to describe an area where earthquakes tend to focus; for example, the New Madrid Seismic Zone in the Central United States. A seismic hazard zone describes an area with a particular level of hazard due to earthquakes. Typically, a high seismic hazard zone is nearest a seismic zone where there are more earthquakes, and a lower seismic hazard zone is farther away from a seismic zone.</div>
+
+                </div>
+            </div>
+        </div>
+        <hr>
+    
+        <div id="sub3" class="sub">
+            
+            <div id="section3">
+                <h3 id="question3">Q-3 Where was Indias first national Museum opened?</h3>
+                <div class="content" id="content3">
+                    <ol type="A">
+                        <li id="option3a"><button onclick="correct3()" >Mumbai</button></li>
+                        <li id="option3b"><button onclick="incorrect3()" >Delhi</button></li>
+                        <li id="option3c"><button onclick="incorrect3()" >Hyderabad</button></li>
+                        <li id="option3d"><button onclick="incorrect3()" >Rajasthan</button></li>
+                    </ol>
+                    <div class="information" id="info3">British hegemony in the Indian subcontinent in the late 18th and 19th centuries was accompanied by a desire among scholars and administrators both to understand the civilizations of South Asia, past and present. Academic studies on these wide subjects were taken up by a new academic body—the Royal Asiatic Society of Bengal, later called the Indian Museum—which established the first repository of collections of objects in stone and metal, old coins, archaeological remains, and manuscripts.</div>
+
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div id="sub4" class="sub">
+            <div id="section4">
+                <h3 id="question4">Q-4 In 2019, Which popular singer was awarded the Bharat Ratna award?</h3>
+                <div class="content" id="content4">
+                    <ol type="A">
+                        <li id="option4a"><button onclick="incorrect4()" >Lata Mangeshkar</button></li>
+                        <li id="option4b"><button onclick="correct4()" >Bhupen Hazarika </button></li>
+                        <li id="option4c"><button onclick="incorrect4()" >Asha Bhosle</button></li>
+                        <li id="option4d"><button onclick="incorrect4()" >Manna Dey </button></li>
+                    </ol>
+
+                    <div class="information" id="info4">His songs, based on the themes of communal amity, universal justice and empathy, are especially popular among the people of Assam, West Bengal and Bangladesh. He is also acknowledged to have introduced the culture and folk music of Assam and Northeast India to Hindi cinema at the national level. He received the National Film Award for Best Music Direction in 1975, the Sangeet Natak Akademi Award (1987), Padma Shri (1977), and Padma Bhushan (2001),[5] Dada Saheb Phalke Award (1992), the highest award for cinema in India and Sangeet Natak Akademi Fellowship (2008), the highest award of the Sangeet Natak Akademi. He was posthumously awarded both the Padma Vibhushan, India second-highest civilian award, 2012, and the Bharat Ratna, India highest civilian award, in 2019.</div>
+
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div id="sub5" class="sub">
+            <div id="section5">
+                <h3 id="question5">Q-5 The worlds nation 5G mobile network was launched by which country?</h3>
+                <div class="content" id="content5">
+                    <ol type="A">
+                        <li id="option5a"><button onclick="incorrect5()" >Japan</button></li>
+                        <li id="option5b"><button onclick="incorrect5()" >Asia</button></li>
+                        <li id="option5c"><button onclick="incorrect5()" >Malaysia</button></li>
+                        <li id="option5d"><button onclick="correct5()" >South Korea</button></li>
+                    </ol>
+
+                    <div class="information" id="info5">In April 2019, South Korea launched its 5G networks to the public. As of August 2020, around twelve percent of active mobile subscriptions were 5G subscriptions. As a growing number of countries adopt the newest generation of mobile communication technology, customers and key players alike are wondering what 5G holds in store. South Korea path towards nationwide 5G offers notable examples of issues that may arise but can also show what opportunities 5G can offer</div>
+
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div id="sub6" class="sub">
+            <div id="section6">
+                <h3 id="question6">Q-6 When was Pravasi Bhartiya Divas held in Varanasi?</h3>
+                <div class="content" id="content6">
+                    <ol type="A">
+                        <li id="option6a"><button onclick="incorrect6()" >2017</button></li>
+                        <li id="option6b"><button onclick="incorrect6()" >2015</button></li>
+                        <li id="option6c"><button onclick="correct6()" >2019</button></li>
+                        <li id="option6d"><button onclick="incorrect6()" >2020</button></li>
+                    </ol>
+
+                    <div class="information" id="info6">Pravasi Bharatiya Divas (PBD) is celebrated on 9th January every year since 2003 to mark the contribution of Overseas Indian community in the development of India. January 9 was chosen as the day to celebrate this occasion since it was on this day in 1915 that Mahatma Gandhi, the greatest Pravasi, returned to India from South Africa, led India freedom struggle and changed the lives of Indians forever.</div>
+
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div id="sub7" class="sub">
+            <div id="section7">
+                <h3 id="question7">Q-7 Vijay Singh (golf player) is from which country?</h3>
+                <div class="content" id="content7">
+                    <ol type="A">
+                        <li id="option7a"><button onclick="correct7()" >Fiji</button></li>
+                        <li id="option7b"><button onclick="incorrect7()" >USA</button></li>
+                        <li id="option7c"><button onclick="incorrect7()" >UK</button></li>
+                        <li id="option7d"><button onclick="incorrect7()" >India</button></li>
+                    </ol>
+
+                    <div class="information" id="info7">Vijay Singh(born 22 February 1963), nicknamed "The Big Fijian", is a Fijian professional golfer. He has won 34 events on the PGA Tour, which is the most by a player from outside of the United States, including three major championships: one Masters title (2000) and two PGA Championships (1998, 2004). He is the first person of South Asian descent to win a major championship. He was elected to the World Golf Hall of Fame in 2006.</div>
+
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div id="sub8" class="sub">
+            <div id="section8">
+                <h3 id="question8">Q-8 What is the full form of DRDL?</h3>
+                <div class="content" id="content8">
+                    <ol type="A">
+                        <li id="option8a"><button onclick="incorrect8()" >Differential Research and Documentation Laboratory</button></li>
+                        <li id="option8b"><button onclick="incorrect8()" >Department of Research and Development Laboratory</button></li>
+                        <li id="option8c"><button onclick="correct8()" >Defense Research and Development Laboratory</button></li>
+                        <li id="option8d"><button onclick="incorrect8()" >None of the above</button></li>
+                    </ol>
+
+                    <div class="information" id="info8">Defence Research and Development Laboratory (DRDL) is an Indian missile development laboratory, part of the Defence Research and Development Organization (DRDO). Their charter is centered on the design, development, and flight evaluation of various types of missile systems for the Indian armed forces. The organization vision statement.</div>
+
+                </div>
+            </div>
+        </div>
+
+    <button id="view" onclick="view()">click here to view the score</button>
+    <div id="score" class="score1"></div>
+    <a id="view2" href="certificate.html">CLICK HERE TO GET CERTIFICATE</a>
+
+</body>
+<script>
+    var x=0
+var y=0
+var z=8
+function correct1(){
+    x+=1
+    y+=1
+    document.getElementById('sub1').innerHTML='<div id="section1">\
+        <h3 id="question1">Q-1 Which of the three banks will be merged with the other two to create Indias third-largest bank?</h3>\
+        <div class="content">\
+            <ol type="A">\
+                <li id="option1a"><button  >Punjab National Bank</button></li>\
+                <li id="option1b"><button  >Indian Bank</button></li>\
+                <li id="option1c"><button  >Bank of Baroda</button></li>\
+                <li id="option1d"><button  >Dena Bank</button></li>\
+            </ol>\
+            <div class="information" id="info1">Punjab National Bank (abbreviated as PNB) is an Indian public sector bank based in New Delhi. The bank was founded in May 1894 and is the second largest public sector bank in India in terms of its business volumes and second largest in terms of its network. The bank has over 180 million customers, 12,248 branches, and 13,000+ ATMs.</div>\
+        </div>\
+    </div>';
+    document.getElementById('option1b').style.border='red solid 3px';
+    document.getElementById('option1a').style.backgroundColor='green';
+    document.getElementById('option1c').style.border='red solid 3px';
+    document.getElementById('option1d').style.border='red solid 3px';
+        document.getElementById('info1').style.display='block';
+        document.getElementById('info1').style.animationName='anim2';
+        document.getElementById('info1').style.animationDuration='1s';
+        document.getElementById('info1').style.transform='translateX(0px)'
+
+
+}
+
+
+function incorrect1(){
+    y+=1
+    document.getElementById('sub1').innerHTML='<div id="section1">\
+    <h3 id="question1">Q-1 Which of the three banks will be merged with the other two to create Indias third-largest bank?</h3>\
+    <div class="content">\
+        <ol type="A">\
+            <li id="option1a"><button  >Punjab National Bank</button></li>\
+            <li id="option1b"><button  >Indian Bank</button></li>\
+            <li id="option1c"><button  >Bank of Baroda</button></li>\
+            <li id="option1d"><button  >Dena Bank</button></li>\
+        </ol>\
+        <div class="information" id="info1">Punjab National Bank (abbreviated as PNB) is an Indian public sector bank based in New Delhi. The bank was founded in May 1894 and is the second largest public sector bank in India in terms of its business volumes and second largest in terms of its network. The bank has over 180 million customers, 12,248 branches, and 13,000+ ATMs.</div>\
+    </div>\
+</div>';
+    document.getElementById('option1a').style.backgroundColor='green';
+    document.getElementById('option1b').style.backgroundColor='red';
+    document.getElementById('option1c').style.backgroundColor='red';
+    document.getElementById('option1d').style.backgroundColor='red';
+    document.getElementById('info1').style.display='block';
+    document.getElementById('info1').style.animationName='anim2';
+    document.getElementById('info1').style.animationDuration='1s';
+    document.getElementById('info1').style.transform='translateX(0px)'
+    
+}
+
+
+    function correct2(){
+        x+=1
+        y+=1
+        document.getElementById('sub2').innerHTML='<div id="section2">\
+        <h3 id="question2">Q-2 What is the name of the weak zone of the earths crust?</h3>\
+        <div class="content">\
+            <ol type="A">\
+                <li id="option2a"><button  >Cosmic</button></li>\
+                <li id="option2b"><button  >Seismic</button></li>\
+                <li id="option2c"><button  >Formic</button></li>\
+                <li id="option2d"><button  >Anaemic</button></li>\
+            </ol>\
+            <div class="information" id="info2">Although you may hear the terms “seismic zone” and “seismic hazard zone” used interchangeably, they really describe two slightly different things. A seismic zone is used to describe an area where earthquakes tend to focus; for example, the New Madrid Seismic Zone in the Central United States. A seismic hazard zone describes an area with a particular level of hazard due to earthquakes. Typically, a high seismic hazard zone is nearest a seismic zone where there are more earthquakes, and a lower seismic hazard zone is farther away from a seismic zone.</div>\
+        </div>\
+    </div>';
+        document.getElementById('option2a').style.border='red solid 3px';
+        document.getElementById('option2b').style.backgroundColor='green';
+        document.getElementById('option2c').style.border='red solid 3px';
+        document.getElementById('option2d').style.border='red solid 3px';
+        document.getElementById('info2').style.display='block';
+        document.getElementById('info2').style.animationName='anim2';
+        document.getElementById('info2').style.animationDuration='1s';
+        document.getElementById('info2').style.transform='translateX(0px)';
+    }
+    
+    
+    function incorrect2(){
+        y+=1
+        document.getElementById('sub2').innerHTML='<div id="section2">\
+        <h3 id="question2">Q-2 What is the name of the weak zone of the earths crust?</h3>\
+        <ol type="A">\
+            <li id="option2a"><button  >Cosmic</button></li>\
+            <li id="option2b"><button  >Seismic</button></li>\
+            <li id="option2c"><button  >Formic</button></li>\
+            <li id="option2d"><button  >Anaemic</button></li>\
+        </ol>\
+        <div class="information" id="info2">Although you may hear the terms “seismic zone” and “seismic hazard zone” used interchangeably, they really describe two slightly different things. A seismic zone is used to describe an area where earthquakes tend to focus; for example, the New Madrid Seismic Zone in the Central United States. A seismic hazard zone describes an area with a particular level of hazard due to earthquakes. Typically, a high seismic hazard zone is nearest a seismic zone where there are more earthquakes, and a lower seismic hazard zone is farther away from a seismic zone.</div>\
+    </div>';
+        document.getElementById('option2a').style.backgroundColor='red';
+        document.getElementById('option2b').style.backgroundColor='green';
+        document.getElementById('option2c').style.backgroundColor='red';
+        document.getElementById('option2d').style.backgroundColor='red';
+        document.getElementById('info2').style.display='block';
+        document.getElementById('info2').style.animationName='anim2';
+        document.getElementById('info2').style.animationDuration='1s';
+        document.getElementById('info2').style.transform='translateX(0px)';
+}
+
+
+function correct3(){
+    x+=1
+    y+=1
+    document.getElementById('sub3').innerHTML='<div id="section3">\
+        <h3 id="question3">Q-3 Where was Indias first national Museum opened?</h3>\
+        <ol type="A">\
+            <li id="option3a"><button  >Mumbai</button></li>\
+            <li id="option3b"><button  >Delhi</button></li>\
+            <li id="option3c"><button  >Hyderabad</button></li>\
+            <li id="option3d"><button  >Rajasthan</button></li>\
+        </ol>\
+        <div class="information" id="info3">British hegemony in the Indian subcontinent in the late 18th and 19th centuries was accompanied by a desire among scholars and administrators both to understand the civilizations of South Asia, past and present. Academic studies on these wide subjects were taken up by a new academic body—the Royal Asiatic Society of Bengal, later called the Indian Museum—which established the first repository of collections of objects in stone and metal, old coins, archaeological remains, and manuscripts.</div>\
+    </div>';
+    document.getElementById('option3a').style.backgroundColor='green';
+    document.getElementById('option3b').style.border='red solid 3px';
+    document.getElementById('option3c').style.border='red solid 3px';
+    document.getElementById('option3d').style.border='red solid 3px';
+    document.getElementById('info3').style.display='block';
+    document.getElementById('info3').style.animationName='anim2';
+    document.getElementById('info3').style.animationDuration='1s';
+    document.getElementById('info3').style.transform='translateX(0px)';
+}
+
+
+function incorrect3(){
+    y+=1
+    document.getElementById('sub3').innerHTML='<div id="section3">\
+        <h3 id="question3">Q-3 Where was Indias first national Museum opened?</h3>\
+        <div class="content">\
+            <ol type="A">\
+                <li id="option3a"><button  >Mumbai</button></li>\
+                <li id="option3b"><button  >Delhi</button></li>\
+                <li id="option3c"><button  >Hyderabad</button></li>\
+                <li id="option3d"><button  >Rajasthan</button></li>\
+            </ol>\
+            <div class="information" id="info3">British hegemony in the Indian subcontinent in the late 18th and 19th centuries was accompanied by a desire among scholars and administrators both to understand the civilizations of South Asia, past and present. Academic studies on these wide subjects were taken up by a new academic body—the Royal Asiatic Society of Bengal, later called the Indian Museum—which established the first repository of collections of objects in stone and metal, old coins, archaeological remains, and manuscripts.</div>\
+        </div>\
+    </div>';
+    document.getElementById('option3a').style.backgroundColor='green';
+    document.getElementById('option3b').style.backgroundColor='red';
+    document.getElementById('option3c').style.backgroundColor='red';
+    document.getElementById('option3d').style.backgroundColor='red';
+    document.getElementById('info3').style.display='block';
+    document.getElementById('info3').style.animationName='anim2';
+    document.getElementById('info3').style.animationDuration='1s';
+    document.getElementById('info3').style.transform='translateX(0px)';
+    
+}
+
+
+function correct4(){
+    x+=1
+    y+=1
+    document.getElementById('sub4').innerHTML='<div id="section4">\
+        <h3 id="question4">Q-4 In 2019, Which popular singer was awarded the Bharat Ratna award?</h3>\
+        <ol type="A">\
+            <li id="option4a"><button  >Lata Mangeshkar</button></li>\
+            <li id="option4b"><button  >Bhupen Hazarika</button></li>\
+            <li id="option4c"><button  >Asha Bhosle</button></li>\
+            <li id="option4d"><button  >Manna Dey</button></li>\
+        </ol>\
+        <div class="information" id="info4">His songs, based on the themes of communal amity, universal justice and empathy, are especially popular among the people of Assam, West Bengal and Bangladesh. He is also acknowledged to have introduced the culture and folk music of Assam and Northeast India to Hindi cinema at the national level. He received the National Film Award for Best Music Direction in 1975, the Sangeet Natak Akademi Award (1987), Padma Shri (1977), and Padma Bhushan (2001),[5] Dada Saheb Phalke Award (1992), the highest award for cinema in India and Sangeet Natak Akademi Fellowship (2008), the highest award of the Sangeet Natak Akademi. He was posthumously awarded both the Padma Vibhushan, India second-highest civilian award, 2012, and the Bharat Ratna, India highest civilian award, in 2019.</div>\
+    </div>';
+    document.getElementById('option4a').style.border='red solid 3px';
+    document.getElementById('option4b').style.backgroundColor='green';
+    document.getElementById('option4c').style.border='red solid 3px';
+    document.getElementById('option4d').style.border='red solid 3px';
+    document.getElementById('info4').style.display='block';
+    document.getElementById('info4').style.animationName='anim2';
+    document.getElementById('info4').style.animationDuration='1s';
+    document.getElementById('info4').style.transform='translateX(0px)';
+}
+
+
+function incorrect4(){
+    y+=1
+    document.getElementById('sub4').innerHTML='<div id="section4">\
+        <h3 id="question4">Q-4 In 2019, Which popular singer was awarded the Bharat Ratna award?</h3>\
+        <div class="content">\
+            <ol type="A">\
+                <li id="option4a"><button  >Lata Mangeshkar</button></li>\
+                <li id="option4b"><button  >Bhupen Hazarika</button></li>\
+                <li id="option4c"><button  >Asha Bhosle</button></li>\
+                <li id="option4d"><button  >Manna Dey</button></li>\
+            </ol>\
+            <div class="information" id="info4">His songs, based on the themes of communal amity, universal justice and empathy, are especially popular among the people of Assam, West Bengal and Bangladesh. He is also acknowledged to have introduced the culture and folk music of Assam and Northeast India to Hindi cinema at the national level. He received the National Film Award for Best Music Direction in 1975, the Sangeet Natak Akademi Award (1987), Padma Shri (1977), and Padma Bhushan (2001),[5] Dada Saheb Phalke Award (1992), the highest award for cinema in India and Sangeet Natak Akademi Fellowship (2008), the highest award of the Sangeet Natak Akademi. He was posthumously awarded both the Padma Vibhushan, India second-highest civilian award, 2012, and the Bharat Ratna, India highest civilian award, in 2019.</div>\
+        </div>\
+    </div>';
+    document.getElementById('option4a').style.backgroundColor='red';
+    document.getElementById('option4b').style.backgroundColor='green';
+    document.getElementById('option4c').style.backgroundColor='red';
+    document.getElementById('option4d').style.backgroundColor='red';
+    document.getElementById('info4').style.display='block';
+    document.getElementById('info4').style.animationName='anim2';
+    document.getElementById('info4').style.animationDuration='1s';
+    document.getElementById('info4').style.transform='translateX(0px)';
+}
+
+function correct5(){
+    x+=1
+    y+=1
+    document.getElementById('sub5').innerHTML='<div id="section5">\
+        <h3 id="question5">Q-5 The worlds nation 5G mobile network was launched by which country?</h3>\
+        <ol type="A">\
+            <li id="option5a"><button  >Japan</button></li>\
+            <li id="option5b"><button  >Asia</button></li>\
+            <li id="option5c"><button  >Malaysia</button></li>\
+            <li id="option5d"><button  >South Korea</button></li>\
+        </ol>\
+        <div class="information" id="info5">In April 2019, South Korea launched its 5G networks to the public. As of August 2020, around twelve percent of active mobile subscriptions were 5G subscriptions. As a growing number of countries adopt the newest generation of mobile communication technology, customers and key players alike are wondering what 5G holds in store. South Korea’s path towards nationwide 5G offers notable examples of issues that may arise but can also show what opportunities 5G can offer</div>\
+    </div>';
+    document.getElementById('option5a').style.border='red solid 3px';
+    document.getElementById('option5b').style.border='red solid 3px';
+    document.getElementById('option5c').style.border='red solid 3px';
+    document.getElementById('option5d').style.backgroundColor='green';
+    document.getElementById('info5').style.display='block';
+    document.getElementById('info5').style.animationName='anim2';
+    document.getElementById('info5').style.animationDuration='1s';
+    document.getElementById('info5').style.transform='translateX(0px)';
+}
+
+
+function incorrect5(){
+    y+=1
+    document.getElementById('sub5').innerHTML='<div id="section5">\
+        <h3 id="question5">Q-5 The worlds nation 5G mobile network was launched by which country?</h3>\
+        <div class="content">\
+            <ol type="A">\
+                <li id="option5a"><button  >Japan</button></li>\
+                <li id="option5b"><button  >Asia</button></li>\
+                <li id="option5c"><button  >Malaysia</button></li>\
+                <li id="option5d"><button  >South Korea</button></li>\
+            </ol>\
+            <div class="information" id="info5">In April 2019, South Korea launched its 5G networks to the public. As of August 2020, around twelve percent of active mobile subscriptions were 5G subscriptions. As a growing number of countries adopt the newest generation of mobile communication technology, customers and key players alike are wondering what 5G holds in store. South Korea path towards nationwide 5G offers notable examples of issues that may arise but can also show what opportunities 5G can offer</div>\
+        </div>\
+    </div>';
+    document.getElementById('option5a').style.backgroundColor='red';
+    document.getElementById('option5b').style.backgroundColor='red';
+    document.getElementById('option5c').style.backgroundColor='red';
+    document.getElementById('option5d').style.backgroundColor='green';
+    document.getElementById('info5').style.display='block';
+    document.getElementById('info5').style.animationName='anim2';
+    document.getElementById('info5').style.animationDuration='1s';
+    document.getElementById('info5').style.transform='translateX(0px)';
+}
+
+function correct6(){
+    x+=1
+    y+=1
+    document.getElementById('sub6').innerHTML='<div id="section6">\
+        <h3 id="question6">Q-6 When was Pravasi Bhartiya Divas held in Varanasi?</h3>\
+        <ol type="A">\
+            <li id="option6a"><button  >2017</button></li>\
+            <li id="option6b"><button  >2015.</button></li>\
+            <li id="option6c"><button  >2019</button></li>\
+            <li id="option6d"><button  >2020.</button></li>\
+        </ol>\
+        <div class="information" id="info6">Pravasi Bharatiya Divas (PBD) is celebrated on 9th January every year since 2003 to mark the contribution of Overseas Indian community in the development of India. January 9 was chosen as the day to celebrate this occasion since it was on this day in 1915 that Mahatma Gandhi, the greatest Pravasi, returned to India from South Africa, led India freedom struggle and changed the lives of Indians forever..</div>\
+    </div>';
+    document.getElementById('option6a').style.border='red solid 3px';
+    document.getElementById('option6b').style.border='red solid 3px';
+    document.getElementById('option6c').style.backgroundColor='green';
+    document.getElementById('option6d').style.border='red solid 3px';
+    document.getElementById('info6').style.display='block';
+    document.getElementById('info6').style.animationName='anim2';
+    document.getElementById('info6').style.animationDuration='1s';
+    document.getElementById('info6').style.transform='translateX(0px)';
+}
+
+
+function incorrect6(){
+    y+=1
+    document.getElementById('sub6').innerHTML='<div id="section6">\
+        <h3 id="question6">Q-6 When was Pravasi Bhartiya Divas held in Varanasi?</h3>\
+        <div class="content">\
+            <ol type="A">\
+                <li id="option6a"><button  >2017</button></li>\
+                <li id="option6b"><button  >2015</button></li>\
+                <li id="option6c"><button  >2019</button></li>\
+                <li id="option6d"><button  >2020.</button></li>\
+            </ol>\
+            <div class="information" id="info6">Pravasi Bharatiya Divas (PBD) is celebrated on 9th January every year since 2003 to mark the contribution of Overseas Indian community in the development of India. January 9 was chosen as the day to celebrate this occasion since it was on this day in 1915 that Mahatma Gandhi, the greatest Pravasi, returned to India from South Africa, led India freedom struggle and changed the lives of Indians forever.</div>\
+        </div>\
+    </div>';
+    document.getElementById('option6a').style.backgroundColor='red';
+    document.getElementById('option6b').style.backgroundColor='red';
+    document.getElementById('option6c').style.backgroundColor='green';
+    document.getElementById('option6d').style.backgroundColor='red';
+    document.getElementById('info6').style.display='block';
+    document.getElementById('info6').style.animationName='anim2';
+    document.getElementById('info6').style.animationDuration='1s';
+    document.getElementById('info6').style.transform='translateX(0px)';
+    
+}
+
+function correct7(){
+    x+=1
+    y+=1
+    document.getElementById('sub7').innerHTML='<div id="section7">\
+        <h3 id="question7">Q-7 Vijay Singh (golf player) is from which country?</h3>\
+        <ol type="A">\
+            <li id="option7a"><button  >Fiji</button></li>\
+            <li id="option7b"><button  >USA</button></li>\
+            <li id="option7c"><button  >UK</button></li>\
+            <li id="option7d"><button  >India</button></li>\
+        </ol>\
+        <div class="information" id="info7">Vijay Singh(born 22 February 1963), nicknamed "The Big Fijian", is a Fijian professional golfer. He has won 34 events on the PGA Tour, which is the most by a player from outside of the United States, including three major championships: one Masters title (2000) and two PGA Championships (1998, 2004). He is the first person of South Asian descent to win a major championship. He was elected to the World Golf Hall of Fame in 2006.</div>\
+    </div>';
+    document.getElementById('option7a').style.backgroundColor='green';
+    document.getElementById('option7b').style.border='red solid 3px';
+    document.getElementById('option7c').style.border='red solid 3px';
+    document.getElementById('option7d').style.border='red solid 3px';
+    document.getElementById('info7').style.display='block';
+    document.getElementById('info7').style.animationName='anim2';
+    document.getElementById('info7').style.animationDuration='1s';
+    document.getElementById('info7').style.transform='translateX(0px)';
+}
+
+
+function incorrect7(){
+    y+=1
+    document.getElementById('sub7').innerHTML='<div id="section7">\
+        <h3 id="question7">Q-7 Vijay Singh (golf player) is from which country?</h3>\
+        <div class="content">\
+            <ol type="A">\
+                <li id="option7a"><button  >Fiji</button></li>\
+                <li id="option7b"><button  >USA</button></li>\
+                <li id="option7c"><button  >UK</button></li>\
+                <li id="option7d"><button  >India</button></li>\
+            </ol>\
+            <div class="information" id="info7">Vijay Singh(born 22 February 1963), nicknamed "The Big Fijian", is a Fijian professional golfer. He has won 34 events on the PGA Tour, which is the most by a player from outside of the United States, including three major championships: one Masters title (2000) and two PGA Championships (1998, 2004). He is the first person of South Asian descent to win a major championship. He was elected to the World Golf Hall of Fame in 2006.</div>\
+        </div>\
+    </div>';
+    document.getElementById('option7a').style.backgroundColor='green';
+    document.getElementById('option7b').style.backgroundColor='red';
+    document.getElementById('option7c').style.backgroundColor='red';
+    document.getElementById('option7d').style.backgroundColor='red';
+    document.getElementById('info7').style.display='block';
+    document.getElementById('info7').style.animationName='anim2';
+    document.getElementById('info7').style.animationDuration='1s';
+    document.getElementById('info7').style.transform='translateX(0px)';
+    
+}
+
+
+function correct8(){
+    x+=1
+    y+=1
+    document.getElementById('sub8').innerHTML='<div id="section8">\
+        <h3 id="question8">Q-8 What is the full form of DRDL?</h3>\
+        <ol type="A">\
+            <li id="option8a"><button  >Differential Research and Documentation Laboratory</button></li>\
+            <li id="option8b"><button  >Department of Research and Development Laboratory</button></li>\
+            <li id="option8c"><button  >Defense Research and Development Laboratory</button></li>\
+            <li id="option8d"><button  >None of the above</button></li>\
+        </ol>\
+        <div class="information" id="info8">Defence Research and Development Laboratory (DRDL) is an Indian missile development laboratory, part of the Defence Research and Development Organization (DRDO). Their charter is centered on the design, development, and flight evaluation of various types of missile systems for the Indian armed forces. The organization vision statement.</div>\
+    </div>';
+    document.getElementById('option8a').style.border='red solid 3px';
+    document.getElementById('option8b').style.border='red solid 3px';
+    document.getElementById('option8c').style.backgroundColor='green';
+    document.getElementById('option8d').style.border='red solid 3px';
+    document.getElementById('info8').style.display='block';
+    document.getElementById('info8').style.animationName='anim2';
+    document.getElementById('info8').style.animationDuration='1s';
+    document.getElementById('info8').style.transform='translateX(0px)';
+}
+
+
+function incorrect8(){
+    y+=1
+    document.getElementById('sub8').innerHTML='<div id="section8">\
+        <h3 id="question8">Q-8 What is the full form of DRDL?</h3>\
+        <div class="content">\
+            <ol type="A">\
+                <li id="option8a"><button  >Differential Research and Documentation Laboratory</button></li>\
+                <li id="option8b"><button  >Department of Research and Development Laboratory</button></li>\
+                <li id="option8c"><button  >Defense Research and Development Laboratory</button></li>\
+                <li id="option8d"><button  >None of the above</button></li>\
+            </ol>\
+            <div class="information" id="info8">Defence Research and Development Laboratory (DRDL) is an Indian missile development laboratory, part of the Defence Research and Development Organization (DRDO). Their charter is centered on the design, development, and flight evaluation of various types of missile systems for the Indian armed forces. The organization vision statement.</div>\
+        </div>\
+    </div>';
+    document.getElementById('option8a').style.backgroundColor='red';
+    document.getElementById('option8b').style.backgroundColor='red';
+    document.getElementById('option8c').style.backgroundColor='green';
+    document.getElementById('option8d').style.backgroundColor='red';
+    document.getElementById('info8').style.display='block';
+    document.getElementById('info8').style.animationName='anim2';
+    document.getElementById('info8').style.animationDuration='1s';
+    document.getElementById('info8').style.transform='translateX(0px)';
+}
+
+function view(){
+    if(y!=z){
+        swal('You have not attempted all questions')
+    }
+    if(x>3){
+        document.getElementById('score').innerHTML='Congratulations you got a good score of: '+x;
+        document.getElementById('score').style.animationName='anim1';
+        document.getElementById('score').style.animationDuration='1s';
+        document.getElementById('score').style.transform='translateX(-2px)';
+    }
+    if(x<=3){
+        document.getElementById('score').innerHTML='You have not passed the quiz and the score is: '+x;
+        document.getElementById('score').style.animationName='anim1';
+        document.getElementById('score').style.animationDuration='1s';
+        document.getElementById('score').style.transform='translateX(-2px)';
+    } 
+    document.getElementById('view2').style.display='block';
+ }
+ const FULL_DASH_ARRAY = 283;
+const WARNING_THRESHOLD = 10;
+const ALERT_THRESHOLD = 5;
+
+const COLOR_CODES = {
+  info: {
+    color: "green"
+  },
+  warning: {
+    color: "orange",
+    threshold: WARNING_THRESHOLD
+  },
+  alert: {
+    color: "red",
+    threshold: ALERT_THRESHOLD
+  }
+};
+
+const TIME_LIMIT = 120;
+let timePassed = 0;
+let timeLeft = TIME_LIMIT;
+let timerInterval = null;
+let remainingPathColor = COLOR_CODES.info.color;
+
+document.getElementById("app").innerHTML = `
+<div class="base-timer">
+  <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <g class="base-timer__circle">
+      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+      <path
+        id="base-timer-path-remaining"
+        stroke-dasharray="283"
+        class="base-timer__path-remaining ${remainingPathColor}"
+        d="
+          M 50, 50
+          m -45, 0
+          a 45,45 0 1,0 90,0
+          a 45,45 0 1,0 -90,0
+        "
+      ></path>
+    </g>
+  </svg>
+  <span id="base-timer-label" class="base-timer__label">${formatTime(
+    timeLeft
+  )}</span>
+</div>
+`;
+
+startTimer();
+
+function onTimesUp() {
+  clearInterval(timerInterval);
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    timePassed = timePassed += 1;
+    timeLeft = TIME_LIMIT - timePassed;
+    document.getElementById("base-timer-label").innerHTML = formatTime(
+      timeLeft
+    );
+    setCircleDasharray();
+    setRemainingPathColor(timeLeft);
+
+    if (timeLeft === 0) {
+      onTimesUp();
+    }
+  }, 1000);
+}
+
+function formatTime(time) {
+  const minutes = Math.floor(time / 60);
+  let seconds = time % 60;
+
+  if (seconds < 10) {
+    seconds = `0${seconds}`;
+  }
+
+  return `${minutes}:${seconds}`;
+}
+
+function setRemainingPathColor(timeLeft) {
+  const { alert, warning, info } = COLOR_CODES;
+  if (timeLeft <= alert.threshold) {
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.remove(warning.color);
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.add(alert.color);
+  } else if (timeLeft <= warning.threshold) {
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.remove(info.color);
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.add(warning.color);
+  }
+}
+
+function calculateTimeFraction() {
+  const rawTimeFraction = timeLeft / TIME_LIMIT;
+  return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+}
+
+function setCircleDasharray() {
+  const circleDasharray = `${(
+    calculateTimeFraction() * FULL_DASH_ARRAY
+  ).toFixed(0)} 283`;
+  document
+    .getElementById("base-timer-path-remaining")
+    .setAttribute("stroke-dasharray", circleDasharray);
+}
+</script>
+</html>
